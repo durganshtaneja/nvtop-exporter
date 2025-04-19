@@ -1,9 +1,21 @@
-version: '3.8'
-
 services:
   nvtop-exporter:
     build: .
+    #image: nvtop-exporter:latest # Uncomment this line if you want to use a pre-built image
+    container_name: nvtop-exporter
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri #Needed for Intel and AMD GPUs
+      # Uncomment the below and above lines if you are using AMD GPUs, both /dev/dri and /dev/kfd are needed
+      #- /dev/kfd:/dev/kfd
+      # Uncomment the below lines if you are using NVIDIA GPUs
+      #- driver: nvidia
+      #        count: 1
+      #       capabilities:
+      #          - gpu
     ports:
       - "8000:8000"
     environment:
-      - PYTHONUNBUFFERED=1
+      - PORT=8000 #Optional, default is 8000
+      - INTERVAL=5 #Optional, default is 5
+    restart: unless-stopped
