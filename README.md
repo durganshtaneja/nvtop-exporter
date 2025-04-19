@@ -40,11 +40,10 @@ python exporter.py --port <port> --interval <interval> [--verbose]
 ### Arguments
 - `--port` or `-p`: Port to run the Prometheus server on (default: 8000).
 - `--interval` or `-i`: Interval in seconds between metric scrapes (default: 5).
-- `--verbose` or `-v`: Prints captured data to stdout (optional).
 
 ### Example
 ```bash
-python exporter.py --port 8000 --interval 5 --verbose
+sudo python exporter.py --port 8000 --interval 5
 ```
 
 ## Running in a Docker Container
@@ -54,28 +53,31 @@ python exporter.py --port 8000 --interval 5 --verbose
    ```bash
    docker build -t nvtop-exporter .
    ```
+   OR
+   ```bash
+   docker pull nvtop-exporter:latest
+   ```
 
 2. Run the Docker container:
    ```bash
-   docker run -p 8000:8000 nvtop-exporter
+   docker run -p 8000:8000 --privileged --device=/dev/dri nvtop-exporter
    ```
+   Change the command according to your requirements
 
 ### Using Docker Compose
-1. Start the container using Docker Compose:
+1. Modify the docker-compose.yml to your needs
+
+2. Start the container using Docker Compose:
    ```bash
    docker-compose up
    ```
 
-2. Access the Prometheus metrics at `http://localhost:8000/metrics`.
-
-### Notes
-- Ensure NVTOP is installed on the host system and accessible to the container if required.
-- Modify the `docker-compose.yml` file to customize the setup as needed.
+3. Access the Prometheus metrics at `http://localhost:8000/metrics`.
 
 ## Sample Outputs
 
 ### NVTOP Output
-Below is an example of NVTOP's output:
+Below is an example of NVTOP's snapshot mode output:
 ```bash
 sudo nvtop -s
 [
@@ -90,14 +92,6 @@ sudo nvtop -s
    "mem_util": "4%"
   }
 ]
-```
-
-### Exporter Output (Verbose Mode)
-When running the exporter with `--verbose`, you might see output like this:
-```
-Prometheus server started on port 8000.
-Scraping nvtop metrics every 5 seconds.
-GPU Name: NVIDIA GTX GPU Clock: 1500 MHz Memory Clock: 7000 MHz GPU Temperature: 65 C Fan Speed: 40 RPM Power Draw: 20 W GPU Usage: 10 % Memory Usage: 5 %
 ```
 
 ### Prometheus Metrics
@@ -127,7 +121,6 @@ The following metrics are exposed by the exporter:
 ## Troubleshooting
 
 - Ensure NVTOP is installed and accessible from the command line.
-- If you encounter errors, run the exporter with the `--verbose` flag to debug.
 - Check that the specified port is not already in use.
 
 ## License
