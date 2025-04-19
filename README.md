@@ -47,6 +47,31 @@ python exporter.py --port <port> --interval <interval> [--verbose]
 python exporter.py --port 8000 --interval 5 --verbose
 ```
 
+## Running in a Docker Container
+
+### Using Docker
+1. Build the Docker image:
+   ```bash
+   docker build -t nvtop-exporter .
+   ```
+
+2. Run the Docker container:
+   ```bash
+   docker run -p 8000:8000 nvtop-exporter
+   ```
+
+### Using Docker Compose
+1. Start the container using Docker Compose:
+   ```bash
+   docker-compose up
+   ```
+
+2. Access the Prometheus metrics at `http://localhost:8000/metrics`.
+
+### Notes
+- Ensure NVTOP is installed on the host system and accessible to the container if required.
+- Modify the `docker-compose.yml` file to customize the setup as needed.
+
 ## Sample Outputs
 
 ### NVTOP Output
