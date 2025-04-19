@@ -122,6 +122,7 @@ The following metrics are exposed by the exporter:
 
 - Ensure NVTOP is installed and accessible from the command line.
 - Check that the specified port is not already in use.
+- If running bare metal, make sure you are running as sudo
 
 ## License
 This project is licensed under the MIT License.
