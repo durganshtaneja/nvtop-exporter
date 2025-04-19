@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/Syllo/nvtop.git /tmp/nvtop \
     && mkdir /tmp/nvtop/build \
     && cd /tmp/nvtop/build \
-    && cmake .. \
+    && cmake .. -DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=ON -DINTEL_SUPPORT=ON \
     && make \
     && make install \
     && rm -rf /tmp/nvtop
@@ -25,10 +25,10 @@ COPY ./exporter/* /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 8000 available to the world outside this container
-EXPOSE 8000
+EXPOSE ${PORT}
 
 # Define environment variable
-ENV PYTHONUNBUFFERED=1
-
+ENV PORT=8000
+ENV INTERVAL=5
 # Run exporter.py when the container launches
-CMD ["python", "exporter.py"]
+ENTRYPOINT ["python", "exporter.py", "--port", "${PORT}", "--interval", "${INTERVAL}"]
