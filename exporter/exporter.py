@@ -16,9 +16,9 @@ nvtop_memory_usage = Gauge('nvtop_memory_usage', 'Total GPU memory usage in perc
 def get_nvtop_metrics(interval):
     try:
         # Run nvtop and capture the output
-        result = subprocess.check_output(['nvtop', '-s'])
-        if result:
-            metrics = json.loads(result.decode('utf-8'))
+        result = subprocess.check_output(['nvtop', '-s']).decode('utf-8')
+        if 'No GPU to monitor.' not in result:
+            metrics = json.loads(result)
             for metric in metrics:
                 # Metrics extraction
                 name= metric['device_name']  # Get GPU name
@@ -78,6 +78,7 @@ def get_nvtop_metrics(interval):
         sleep(interval)  # Sleep for 5 seconds before the next scrape
     except Exception as e:
         print(f"Error scraping nvtop: {e}")
+        exit(1)
 
 if __name__ == '__main__':
     # Parse command line arguments
