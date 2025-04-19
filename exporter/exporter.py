@@ -13,7 +13,7 @@ nvtop_gpu_power_draw = Gauge('nvtop_gpu_power_draw', 'GPU power draw in Watts',[
 nvtop_gpu_usage = Gauge('nvtop_gpu_usage', 'Total GPU usage in percent',['gpu'])
 nvtop_memory_usage = Gauge('nvtop_memory_usage', 'Total GPU memory usage in percent',['gpu'])
 
-def get_nvtop_metrics(interval,verbose=False):
+def get_nvtop_metrics(interval):
     try:
         # Run nvtop and capture the output
         result = subprocess.check_output(['nvtop', '-s'])
@@ -71,16 +71,6 @@ def get_nvtop_metrics(interval,verbose=False):
                 else:
                     memory_usage = 0
                     nvtop_memory_usage.labels(name).set(0)
-                    
-                if verbose:    
-                    print(f"GPU Name: {name}",
-                        f"GPU Clock: {gpu_clock} MHz",
-                        f"Memory Clock: {mem_clock} MHz",
-                        f"GPU Temperature: {gpu_temp} C",
-                        f"Fan Speed: {fan_speed} RPM",
-                        f"Power Draw: {power_draw} W",
-                        f"GPU Usage: {gpu_usage} %",
-                        f"Memory Usage: {memory_usage} %")
         else:
             print("No GPU found")
             exit(1)
@@ -94,8 +84,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Export nvtop metrics to Prometheus.')
     parser.add_argument('--port', '-p', type=int, default=8000, help='Port to run the Prometheus server on.')
     parser.add_argument('--interval', '-i', type=int, default=5, help='Interval in seconds between metric scrapes.')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Prints captured data to stdout.')
-    #parser.add_argument('-h', '--help', action='store_true', help='Print this help message')
     args = parser.parse_args()
 
     
@@ -105,4 +93,4 @@ if __name__ == '__main__':
     print(f"Scraping nvtop metrics every {args.interval} seconds.")
     
     while True:
-        get_nvtop_metrics(args.interval,args.verbose)
+        get_nvtop_metrics(args.interval)
