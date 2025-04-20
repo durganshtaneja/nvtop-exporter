@@ -72,13 +72,11 @@ def get_nvtop_metrics(interval):
                     memory_usage = 0
                     nvtop_memory_usage.labels(name).set(0)
         else:
-            print("No GPU found")
-            exit(1)
-        
+            print("No GPU found")        
         sleep(interval)  # Sleep for 5 seconds before the next scrape
     except Exception as e:
         print(f"Error scraping nvtop: {e}")
-        exit(1)
+        sleep(interval)  # Sleep for 5 seconds before retrying
 
 if __name__ == '__main__':
     # Parse command line arguments
