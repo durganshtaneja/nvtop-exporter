@@ -38,8 +38,8 @@ python exporter.py --port <port> --interval <interval> [--verbose]
 ```
 
 ### Arguments
-- `--port` or `-p`: Port to run the Prometheus server on (default: 8000).
-- `--interval` or `-i`: Interval in seconds between metric scrapes (default: 5).
+- `--port` or `-p`: Port to run the Prometheus server on (default: 8000) (optional).
+- `--interval` or `-i`: Interval in seconds between metric scrapes (default: 5) (optional).
 - `--verbose` or `-v`: Prints captured data to stdout (optional).
 
 ### Example
