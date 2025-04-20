@@ -1,6 +1,6 @@
 # nvtop Exporter
 
-###Important Note
+### Important Note
 For some reason, nvtop inside a container does not see the GPU and no data is pushed.
 I have tried many things, none of which seemed to work.
 If you want to take a crack at it, feel free to fork this repo and create a PR if you manage to get it to work.
