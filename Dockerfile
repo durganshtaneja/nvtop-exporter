@@ -4,6 +4,8 @@ FROM python:3.9-slim
 # Install dependencies for building nvtop
 RUN apt-get update && apt-get install -y \
     git cmake build-essential libncurses5-dev libncursesw5-dev \
+    libsystemd-dev libudev-dev libdrm-dev libpciaccess-dev \
+    vainfo intel-gpu-tools pciutils lm-sensors \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and build nvtop
@@ -30,5 +32,10 @@ EXPOSE ${PORT}
 # Define environment variable
 ENV PORT=8000
 ENV INTERVAL=5
+ENV XDG_RUNTIME_DIR=/tmp/runtime
+
+RUN mkdir -p /tmp/runtime && chmod 700 /tmp/runtime
+
 # Run exporter.py when the container launches
-ENTRYPOINT ["python", "exporter.py", "--port", "${PORT}", "--interval", "${INTERVAL}"]
+CMD ["sh", "-c", "python exporter.py --port ${PORT} --interval ${INTERVAL}"]
+#ENTRYPOINT ["sh", "-c", "python exporter.py --port ${PORT} --interval ${INTERVAL}"]

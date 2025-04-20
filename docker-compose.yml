@@ -13,9 +13,14 @@ services:
       #        count: 1
       #       capabilities:
       #          - gpu
+    #volumes:
+    #  - /sys/class/drm:/sys/class/drm #Needed for Intel and AMD GPUs
+    #  - /sys/class/hwmon:/sys/class/hwmon #Needed for Intel and AMD GPUs
+    #  - /proc:/proc #Needed for Intel and AMD GPUs
+    #  - /sys/bus/pci:/sys/bus/pci #Needed for Intel and AMD GPUs
     ports:
       - "8000:8000"
     environment:
       - PORT=8000 #Optional, default is 8000
       - INTERVAL=5 #Optional, default is 5
-    restart: unless-stopped
+    #restart: unless-stopped
