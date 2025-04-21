@@ -27,50 +27,43 @@ def get_nvtop_metrics(interval,verbose=False):
                 gpu_clock = int(metric['gpu_clock'][:-3])  # Get GPU clock in MHz
                 nvtop_gpu_clock.labels(name).set(gpu_clock)
             else:
-                gpu_clock = 0
-                nvtop_gpu_clock.labels(name).set(0)
+                gpu_clock = None
 
             if metric['mem_clock']: # Check if memory clock is available, currently nvtop returns None in snapshot mode, will remove this check in the future
                 mem_clock = int(metric['mem_clock'][:-3])  # Get memory clock in MHz
                 nvtop_mem_clock.labels(name).set(mem_clock)
             else:
-                mem_clock = 0
-                nvtop_mem_clock.labels(name).set(0)
+                mem_clock = None
 
             if metric['temp']:
                 gpu_temp = float(metric['temp'][:-1])
                 nvtop_gpu_temp.labels(name).set(gpu_temp)
             else:
-                gpu_temp = 0
-                nvtop_gpu_temp.labels(name).set(0) 
+                gpu_temp = None
 
             if metric['fan_speed']: # Check if fan speed is available, currently nvtop returns None in snapshot mode, will remove this check in the future
                 fan_speed= int(metric['fan_speed'][:-3])  # Get fan speed in RPM
                 nvtop_gpu_fan_speed.labels(name).set(fan_speed)
             else:
-                fan_speed = 0
-                nvtop_gpu_fan_speed.labels(name).set(0)
+                fan_speed = None
                 
             if metric['power_draw']: # Check if power draw is available, currently nvtop returns None in snapshot mode, will remove this check in the future
                 power_draw = int(metric['power_draw'][:-1])  # Get power draw in Watts
                 nvtop_gpu_power_draw.labels(name).set(power_draw)
             else:
-                power_draw = 0
-                nvtop_gpu_power_draw.labels(name).set(0)
+                power_draw = None
 
             if metric['gpu_util']: # Check if GPU utilization is available, currently nvtop returns None in snapshot mode, will remove this check in the future
                 gpu_usage = int(metric['gpu_util'][:-1])  # Get GPU usage in percent
                 nvtop_gpu_usage.set(gpu_usage)
             else:
-                gpu_usage = 0
-                nvtop_gpu_usage.labels(name).set(0)
+                gpu_usage = None
             
             if metric['mem_util']:
                 memory_usage = int(metric['mem_util'][:-1])  # Get memory usage in percent
                 nvtop_memory_usage.labels(name).set(memory_usage)
             else:
-                memory_usage = 0
-                nvtop_memory_usage.labels(name).set(0)
+                memory_usage = None
                 
             if verbose:    
                 print(f"GPU Name: {name}",
